@@ -18,41 +18,86 @@ Later it was proven that Recurrent Neural Networks (RNNs) outperform HMMs but su
 # Methodology
 ## Software
 ### Edge Impulse
-#### Flow Chart for setting up the edge impulse 
+#### Flow Chart for setting up the edge impulse
+
 Edge Impulse is a machine learning model development and deployment platform for embedded devices such as microcontrollers. It includes an entire workflow for gathering, processing, and analysing sensor data, as well as tools for training and deploying machine learning models at the edge. Figure shows the overall flow for training model on Edge Impulse
 <p align="center">
   <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/5.png">
 </p>
+
 1.	On Edge Impulse, a new project was created and "Keyword Spotting" was chosen as the application type. This option add the essential blocks and settings to newly created project for keyword spotting.
+
 2.	In order to record audio data, laptop is chosen as the recording device. A new data acquisition task was created to acquire the training data.
+
 3.	The data acquisition task was set up. The label and duration of each recording is chosen as a start. The data was split into training and testing sets, with a default split of 80/20. Since this project will use 2 keywords, 4 separate labels are used when recording. The mentioned labels are ‘help’, ‘kill’, ‘unknown’ and ‘noise’. Additional label of ‘unknown’ and ‘noise’ were created to further increase the accuracy of trained model.
 <p align="center">
   <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/6.png">
 </p>
+
 4.	After each recording, the data saved can be examined and curated to ensure its quality and correctness. Each recording was replayed and if necessary, change its label. Any recordings that are of poor quality or have been mislabelled were erased.
+
 <p align="center">
   <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/7.png">
 </p>
+
 5.	Once data are acquired and curated, the create impulse step is completed and proceed to pre-process the obtained data for training. In case of keyword spotting, the Mel Frequency Cepstral Coefficients (MFCC) algorithm is extracted from the audio samples. MFCC is particularly effective in capturing the spectral characteristics of an audio signal, which is important for distinguishing different sounds. The technique involves several steps[7]:
-<br> - Pre-emphasis: This step amplifies the high-frequency components of the audio signal, which improves the signal-to-noise ratio.
-<br> - Framing: The audio signal is divided into frames, typically lasting around 20-30 milliseconds each. Overlapping frames are often used to ensure continuity between frames.
-<br> - Windowing: A window function, such as a Hamming or Hanning window, is applied to each frame to reduce spectral leakage.
-<br> - FFT (Fast Fourier Transform): The FFT is applied to each frame to obtain the frequency spectrum of the signal.
-<br> - Mel Filtering: The frequency spectrum is passed through a bank of filters that are spaced according to the Mel scale. This scale is a non-linear scale that better approximates the human auditory system's perception of frequency [8].
-<br> - Logarithmic compression: The output from each filter is transformed to a logarithmic scale.
-<br> - Discrete Cosine Transform: The DCT is applied to the log-filterbank outputs to obtain the MFCC coefficients.
+
+- Pre-emphasis: This step amplifies the high-frequency components of the audio signal, which improves the signal-to-noise ratio.
+
+- Framing: The audio signal is divided into frames, typically lasting around 20-30 milliseconds each. Overlapping frames are often used to ensure continuity between frames.
+
+- Windowing: A window function, such as a Hamming or Hanning window, is applied to each frame to reduce spectral leakage.
+
+- FFT (Fast Fourier Transform): The FFT is applied to each frame to obtain the frequency spectrum of the signal.
+
+- Mel Filtering: The frequency spectrum is passed through a bank of filters that are spaced according to the Mel scale. This scale is a non-linear scale that better approximates the human auditory system's perception of frequency [8].
+
+- Logarithmic compression: The output from each filter is transformed to a logarithmic scale.
+
+- Discrete Cosine Transform: The DCT is applied to the log-filterbank outputs to obtain the MFCC coefficients.
 <p align="center">
   <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/8.png">
 </p>
+
 6.	After MFCCs were extracted, the machine learning model is trained by classifier step. This step will shows the confusion matrix between the audio samples separated by labels. In this step, the accuracy of the trained model is determined which helps in making decision of either to record more data or just proceed based on the model accuracy.
 <p align="center">
   <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/9.png">
 </p>
+
 7.	Once high accuracy of model is obtained, the model is deployed by choosing CMSIS-pack as target since the project will be programmed and build using STM32 Cube IDE platform.
 <p align="center">
-  <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/10.png">
+  <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/11.png">
+</p> 
+
+### STM32 Cube IDE 
+#### Flow Chart for setting up STM32Cube IDE
+
+<p align="center">
+  <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/1.png">
 </p>
-### STM32 Cube IDE <br>
+
+1.	New project was created with the name “KWS_cpp” and STM32F411RE is selected as the target board. The project is created with C++ as targeted language.
+
+<p align="center">
+  <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/2.png">
+</p>
+<p align="center">
+  <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/3.png">
+</p>
+
+2.	Firstly, the GPIO pins are configured in the STM32 Cube IDE software. A total of 3 input peripherals are connected to the board through the GPIO interfaces. Then, the I2s (Inter-IC Sound) is configured as well to activate I2s protocol in STM32. The I2s protocol is meant for the interfacing between the MCU and the input peripheral. Since this project is using the microphone module to capture data in audio format, this protocol provides simple and affordable solution for transferring audio data between devices. The code for project configuration is then generated by the STM32 automatically.
+<p align="center">
+  <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/4.png">
+</p>
+
+3.	After the ioc configuration is specified, the deployed CMSIS-pack is installed into the project workspace.
+<p align="center">
+  <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/12.png">
+</p>
+4.	Once the trained model pack is intalled. The installed libraries are enabled in the project 
+<p align="center">
+  <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/13.png">
+</p>
 
 ## Hardware
 ### STM32F411RE Board
