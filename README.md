@@ -101,14 +101,45 @@ Edge Impulse is a machine learning model development and deployment platform for
 
 ## Hardware
 ### STM32F411RE Board
+<p align="center">
+  <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/14.png">
+</p>
 
 ### INMP441 MEMS
+I2S, 24-bit, twos complement, is the format used by the slave serial-data port. Each WS stereo frame must have 64 SCK cycles, or 32 SCK cycles per data-word. Whether the INMP441 outputs data in the left or right channel is controlled by the L/R control pin. The left and right INMP441 microphones' SD pins should be connected as shown in Figure to create a stereo application. However, in this project only one microphone module is used, thus the L/R pin grounded. 
 
+<p align="center">
+  <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/15.png">
+</p>
+
+Table below shows the connection for INMP441.
+| Microphone module  | Integration of microphone and MCU|
+| ------------- | ------------- |
+| VDD | 3V3 |
+| GND | GND  |
+| L/R | GND |
+| WS | PB12  |
+| SCK | PB10 |
+| SD | PC3  |
 ### Buzzer
-
+The pin configuration of the 3 pins buzzer is connected as in table below
+| Buzzer | Integration of buzzer and MCU |
+| ------------- | ------------- |
+| VDD | 3V3 |
+| GND | GND  |
+| GPIO | PB2 |
 ### LEDs
-
+There was a total of 2 LEDs used as the output peripherals of the project. One of them is a green LED and the other one is red LED. The anode pin of the green-coloured LED is connected to PB0 pin of the STM32 board and the anode pin of the red-coloured LED is connected to the PB1 pin of the board. Both the cathode pins of the LEDs are grounded.
+| LED  | Integration of LED and MCU |
+| ------------- | ------------- |
+| Cathode | GND |
+| Anode pin of Green LED | PB0  |
+| Anode pin of Red LED | PB1 |
 ### Circuit Connection
+Figure shows the complete circuit connection
+<p align="center">
+  <img src="https://github.com/LuckyLizard-MKEL1123/Milestone5/blob/main/PICS/16.png">
+</p>
 
 # Result
 <link youtube>
